@@ -4,12 +4,22 @@ from django.contrib import messages
 
 from accounts.models import dayoff
 from .forms import UserRegisterForm, DayOffForm
+from django.contrib.auth import authenticate, login
 
 
-def mylogin(request, user):
+def mylogin(request):
     context = {}
     if request.POST:
         username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            if user.groups.filter(name="manager").exists():
+                return redirect('/admin')
+
+            return redirect('home')
 
     return render(request, 'accounts/login.html')
 
