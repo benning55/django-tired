@@ -17,7 +17,7 @@ def mylogin(request):
         if user:
             login(request, user)
             if user.groups.filter(name="manager").exists():
-                return redirect('/admin')
+                return redirect('/admin/accounts/dayoff')
 
             return redirect('home')
 
