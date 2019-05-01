@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+        {% endif %}
+        <div class="container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">ประเภท</th>
+                      <th scope="col">สาเหตุ</th>
+                      <th scope="col">ตั้งแต่วันที่</th>
+                      <th scope="col">ถึงวันที่</th>
+                      <th scope="col">สถานะ</th>
+                    </tr>
+                  </thead>
+                 {% for obj in data %}
+                      <tbody>
+                        <tr>
+                          <th scope="row">{{ obj.get_type_display }}</th>
+                          <td>{{ obj.reason }}</td>
+                          <td>{{ obj.date_start }}</td>
+                          <td>{{ obj.date_end }}</td>
+                          <td>{{ obj.get_approve_status_display }}</td>
+                        </tr>
+                      </tbody>
+                  {% endfor %}
+                </table>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit"><a href="{% url 'send' %}">ยื่นคำขอลางาน</a></button>
+                </div>
+        </div>
+    {% endblock %}
+</body>
+</html>
